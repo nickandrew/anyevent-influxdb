@@ -2569,6 +2569,24 @@ sub drop_subscription {
     );
 }
 
+# Return an already-quoted string unchanged.
+# Otherwise, if a string contains non-alphanumeric characters, quote it.
+
+sub _quoteString {
+	my $string = shift;
+
+	if ($string =~ /^["']/) {
+		# Already quoted, return as-is (does not check for interior quotes or " at end)
+		return $string;
+	}
+
+	if ($string =~ /[^A-Za-z0-9_]/) {
+		return '"' . $string . '"';
+	}
+
+	return $string;
+}
+
 
 =head1 CAVEATS
 
